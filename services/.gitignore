@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local development settings
+.venv/
+
+# Django static files
+/static/
+
+# Django media files
+/media/
+
+# Database files
+*.sqlite3
+
+# Log files
+*.log
+
+# Virtual environment
+.venv/
+
+# IDE files
+.vscode/
+.idea/
+
+# Compiled Python files
+*.pyc
+
+# macOS files
+.DS_Store
+
+# Windows thumbnail cache files
+Thumbs.db
+
+# Editor-specific files
+*.swp
+*.swo
+*.bak

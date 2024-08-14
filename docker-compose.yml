@@ -1,0 +1,29 @@
+version: '27.0.3'
+services:
+  user-management:
+    build: ./services/user-management
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./services/user-management:/app
+
+  event-management:
+    build: ./services/event-management
+    ports:
+      - "8002:8000"
+    volumes:
+      - ./services/event-management:/app
+
+  payment-service:
+    build: ./services/payment-service
+    ports:
+      - "8003:8000"
+    volumes:
+      - ./services/payment-service:/app
+
+  notification-service:
+    build: ./services/notification-service
+    ports:
+      - "8004:8000"
+    volumes:
+      - ./services/notification-service:/app
