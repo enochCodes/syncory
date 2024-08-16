@@ -25,7 +25,7 @@ __pycache__/
 .vscode/
 .idea/
 
-# Compiled Python filese
+# Compiled Python files
 *.pyc
 
 # macOS files
@@ -38,3 +38,7 @@ Thumbs.db
 *.swp
 *.swo
 *.bak
+
+# Node.js modules
+client-side/node_modules/
+node_modules/
