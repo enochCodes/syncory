@@ -12,6 +12,7 @@ class TimestampMixin(models.Model):
 
 
 class BaseUser(TimestampMixin, AbstractBaseUser):
+    user_id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length=100, unique=True)
     phone = models.CharField(max_length=100, unique=True)
