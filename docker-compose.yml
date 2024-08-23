@@ -1,29 +1,23 @@
-version: '27.0.3'
+version: '4.33.1'
+
 services:
-  user-management:
-    build: ./services/user-management
+  app:
+    build: ./backend
     ports:
-      - "8001:8000"
-    volumes:
-      - ./services/user-management:/app
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://postgres:122221enochCodes@db:5432/syncory_db
+    depends_on:
+      - db
 
-  event-management:
-    build: ./services/event-management
-    ports:
-      - "8002:8000"
+  db:
+    image: postgres:16
     volumes:
-      - ./services/event-management:/app
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 122221enochCodes
+      POSTGRES_DB: syncory_db
 
-  payment-service:
-    build: ./services/payment-service
-    ports:
-      - "8003:8000"
-    volumes:
-      - ./services/payment-service:/app
-
-  notification-service:
-    build: ./services/notification-service
-    ports:
-      - "8004:8000"
-    volumes:
-      - ./services/notification-service:/app
+volumes:
+  db-data:
