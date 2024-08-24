@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import sequelize from './config/database.js';
 import AuthRoutes from "./routes/authRoutes.js";
+import UserRoutes from "./routes/userRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,6 +22,7 @@ async function testDatabaseConnection() {
 
 // Define a route
 app.use('/api/auth/users', AuthRoutes);
+app.use("/api/user", UserRoutes);
 
 // Start the server
 app.listen(PORT, () => {
