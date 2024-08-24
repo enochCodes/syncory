@@ -1,10 +1,12 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database.js";
+import Event from "./event.js";
+import EventAttendees from "./EventAttendees.js";
 
-const User = sequelize.define(
-  "User",
+class User extends Model {}
+
+User.init(
   {
-    // Define attributes
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -43,8 +45,18 @@ const User = sequelize.define(
     },
   },
   {
+    sequelize,
+    modelName: "User",
     timestamps: true,
   }
 );
+
+// Associations
+User.hasMany(Event, { as: "organizedEvents", foreignKey: "organizerId" });
+User.belongsToMany(Event, {
+  through: EventAttendees,
+  as: "attendedEvents",
+  foreignKey: "userId",
+});
 
 export default User;
