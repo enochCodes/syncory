@@ -37,7 +37,7 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { username, email, brandName, description } = req.body;
+    const { username, email, brandName, description, password } = req.body;
 
     try {
       const user = await User.findByPk(req.user.id);
@@ -53,10 +53,24 @@ router.put(
         }
       }
 
-      user.username = username;
-      user.email = email;
-      user.brandName = brandName;
-      user.description = description;
+      // check the role and add fileds 
+      const ORGANIZER = "organizer";
+      if (user.role === ORGANIZER){
+        if (brandName === undefined || description === undefined){
+          return res.status(400).json({ message: "Brand name and description are required" });
+        }
+        user.username = username;
+        user.email = email;
+        user.brandName = brandName;
+        user.description = description;
+        if (password) user.password = password;
+
+      }
+      else{
+        user.username = username;
+        user.email = email;
+        user.password = password;
+      }
 
       await user.save();
 
