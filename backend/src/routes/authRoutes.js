@@ -19,16 +19,32 @@ router.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create New User
-    const newUser = await User.create({
-      username,
-      email,
-      password: hashedPassword,
-      role,
-    });
-
-    return res
-      .status(201)
-      .json({ message: "User registered successfully", user: newUser });
+    if (role === undefined) {
+      const newUser = await User.create({
+        username,
+        email,
+        password: hashedPassword,
+        role: "attendee",
+      });
+      return res
+        .status(201)
+        .json({ message: "User registered successfully", user: newUser });
+    } else if (role === "organizer") {
+      const { brandName, description } = req.body;
+      const newUser = await User.create({
+        username,
+        email,
+        password: hashedPassword,
+        role,
+        brandName,
+        description,
+      });
+      return res
+        .status(201)
+        .json({ message: "User registered successfully", user: newUser });
+    } else {
+      return res.status(400).json({ message: "Invalid role" });
+    }
   } catch (error) {
     return res.status(500).json({ message: "Server error", error });
   }
