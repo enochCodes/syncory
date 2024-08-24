@@ -2,7 +2,7 @@
 FROM node:20-alpine AS build
 
 # Set working directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copy package.json and package-lock.json to install dependencies
 COPY package*.json ./
@@ -17,10 +17,10 @@ COPY . .
 FROM node:20-alpine
 
 # Set working directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copy the application and node_modules from the build stage
-COPY --from=build /usr/src/app /usr/src/app
+COPY --from=build /app /app
 
 # Expose the port your app runs on
 EXPOSE 3000
@@ -29,4 +29,4 @@ EXPOSE 3000
 ENV NODE_ENV=production
 
 # Run the application
-CMD ["node", "src/app.js"]
+CMD ["node", "src/server.js"]
