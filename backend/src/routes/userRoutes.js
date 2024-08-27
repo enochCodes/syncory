@@ -23,16 +23,20 @@ router.put(
   ],
   UserController.updateProfile
 );
-
 // for Organizer Users categories endpoints
+// POST /categories - Add a new category
 router.post("/categories", authMiddleware, RoleCheckMiddleware('organizer'), UserController.addCategories);
 
+// GET /categories - Get all categories
 router.get("/categories", authMiddleware, RoleCheckMiddleware('organizer'), UserController.getCategories);
 
+// GET /categories/:id - Get a category by ID
 router.get("/categories/:id", authMiddleware, RoleCheckMiddleware('organizer'), UserController.getCategoryById);
 
+// PUT /categories/:id - Update a category by ID
 router.put("/categories/:id", authMiddleware, RoleCheckMiddleware('organizer'), UserController.updateCategory);
 
+// DELETE /categories/:id - Delete a category by ID
 router.delete("/categories/:id", authMiddleware, RoleCheckMiddleware('organizer'), UserController.deleteCategory);
 
 export default router;
