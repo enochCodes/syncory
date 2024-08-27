@@ -3,7 +3,7 @@ import express from 'express';
 import sequelize from './config/database.js';
 import AuthRoutes from "./routes/authRoutes.js";
 import UserRoutes from "./routes/userRoutes.js";
-
+import EventRoutes from "./routes/eventRoutes.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -21,8 +21,9 @@ async function testDatabaseConnection() {
 }
 
 // Define a route
-app.use('/api/auth/users', AuthRoutes);
-app.use("/api/user", UserRoutes);
+app.use('/api/v1/auth/users', AuthRoutes);
+app.use('/api/v1/users/', UserRoutes);
+app.use('/api/v1/', EventRoutes);
 
 // Start the server
 app.listen(PORT, () => {

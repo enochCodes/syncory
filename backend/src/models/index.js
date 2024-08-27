@@ -9,6 +9,10 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
+import User from "./user.js";
+import Event from "./event.js";
+import EventAttendees from "./EventAttendees.js";
+
 let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
@@ -37,7 +41,26 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+// Define associations
+User.hasMany(Event, { as: "organizedEvents", foreignKey: "organizerId" });
+User.belongsToMany(Event, {
+  through: EventAttendees,
+  as: "attendedEvents",
+  foreignKey: "userId",
+});
+
+Event.belongsTo(User, { as: "organizer", foreignKey: "organizerId" });
+Event.belongsToMany(User, {
+  through: EventAttendees,
+  as: "attendees",
+  foreignKey: "eventId",
+});
+
+
+
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 module.exports = db;
+export { User, Event, EventAttendees };

@@ -1,7 +1,5 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database.js";
-import Event from "./event.js";
-import EventAttendees from "./EventAttendees.js";
 
 class User extends Model {}
 
@@ -50,13 +48,5 @@ User.init(
     timestamps: true,
   }
 );
-
-// Associations
-User.hasMany(Event, { as: "organizedEvents", foreignKey: "organizerId" });
-User.belongsToMany(Event, {
-  through: EventAttendees,
-  as: "attendedEvents",
-  foreignKey: "userId",
-});
 
 export default User;
