@@ -1,27 +1,13 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import AppRoutes from './routes/routes';
+import './App.css';
+import './index.css';
 
-// Import global components
-import Navbar from './components/Navbar/Navbar';
-import Footer from './components/Footer/Footer';
-
-// Import the routing definitions
-import AppRoutes from './routes';
-
-function App() {
+const App = () => {
   return (
-    // BrowserRouter provides the routing context to the entire app
-    <BrowserRouter>
-      {/* Navbar will be displayed on all pages */}
-      <Navbar />
-
-      {/* AppRoutes contains all the Route components */}
+    <div className="App">
       <AppRoutes />
-
-      {/* Footer will be displayed on all pages */}
-      <Footer />
-    </BrowserRouter>
+    </div>
   );
-}
+};
 
 export default App;
