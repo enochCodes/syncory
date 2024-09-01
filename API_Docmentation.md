@@ -376,54 +376,6 @@ Authorization: Bearer {jwt_token}
   }
   ```
 
-### 4. Attend Event
-
-#### **POST** `/api/v1/events/{id}/attend`
-
-**Description:**
-Adds the authenticated user as an attendee to the specified event.
-
-**Request Headers:**
-
-```http
-Authorization: Bearer {jwt_token}
-```
-
-**Response:**
-
-- **200 OK**
-
-  ```json
-  {
-    "message": "User added as attendee to event"
-  }
-  ```
-
-- **400 Bad Request**
-
-  ```json
-  {
-    "message": "Invalid event ID"
-  }
-  ```
-
-- **404 Not Found**
-
-  ```json
-  {
-    "message": "Event not found"
-  }
-  ```
-
-- **500 Internal Server Error**
-
-  ```json
-  {
-    "message": "Server error",
-    "error": "Detailed error message"
-  }
-  ```
-
 ---
 
 ## Authorization
@@ -433,3 +385,5 @@ Authorization: Bearer {jwt_token}
 - **Authorization:** Bearer {jwt_token}
 
 ---
+
+This documentation includes all endpoints and features implemented up to and including the current milestone. You can place this in your project’s documentation section or README file to help users understand how to interact with your API.

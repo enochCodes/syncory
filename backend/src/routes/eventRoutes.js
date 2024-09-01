@@ -20,4 +20,6 @@ router.post(
 router.put('/events/:id', authMiddleware, EventController.updateEvent)
 
 router.delete('/events/:id', authMiddleware, EventController.deleteEvent)
+
+router.post('/events/:id/attend', authMiddleware, EventController.addAttendee);
 export default router;
