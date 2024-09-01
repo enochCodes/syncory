@@ -1,4 +1,4 @@
-import AppRoutes from './routes/routes';
+import AppRoutes from './Routers/router'; // Ensure this is the correct path to your routes file
 import './App.css';
 import './index.css';
 

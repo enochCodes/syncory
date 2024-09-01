@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import AppRoutes from './Routers/routes';
+import App from './App'; // Import the App component, which now handles routing
 import './index.css';
-import './app.css';
+import './App.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <AppRoutes />
-    </React.StrictMode>
+        <App />
+    </React.StrictMode>,
 );
