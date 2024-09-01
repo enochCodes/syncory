@@ -39,4 +39,11 @@ router.put("/categories/:id", authMiddleware, RoleCheckMiddleware('organizer'), 
 // DELETE /categories/:id - Delete a category by ID
 router.delete("/categories/:id", authMiddleware, RoleCheckMiddleware('organizer'), UserController.deleteCategory);
 
+// GET /organizers - get all organizer
+router.get("/organizers", authMiddleware, UserController.getOrganizers);
+
+// GET /organizers/:id - get organizer by id
+router.get("/organizers/:id", authMiddleware, UserController.getOrganizerById);
+
+
 export default router;

@@ -10,7 +10,10 @@ class UserService {
     return user;
   }
 
-  async updateUserProfile(userId, { username, email, brandName, description, password }) {
+  async updateUserProfile(
+    userId,
+    { username, email, brandName, description, password }
+  ) {
     const user = await User.findByPk(userId);
     if (!user) {
       throw new Error("User not found");
@@ -84,6 +87,17 @@ class UserService {
     await category.destroy();
 
     return category;
+  }
+
+  async getOrganizers() {
+    return await User.findAll({ where: { role: "organizer" } });
+  }
+  async getOrganizersById(id) {
+    const user = await User.findOne({ where: { id, role: "organizer" } });
+    if (!user) {
+      throw new Error("Organizer not found");
+    }
+    return user;
   }
 }
 

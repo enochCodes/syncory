@@ -1,5 +1,12 @@
 import EventService from "../services/EventService.js";
+import EventAttendees from "../models/EventAttendees.js";
 
+/**
+ * Adds a user as an attendee to an event.
+ * @param {number} userId - The ID of the user.
+ * @param {number} eventId - The ID of the event.
+ * @returns {Promise<Object>} - The created event attendee entry.
+ */
 class EventController {
   static async getAllEvents(__, res) {
     try {
@@ -101,6 +108,20 @@ class EventController {
         .json({ message: "An error occurred while deleting the event", error });
     }
     
+  }
+
+  static async addAttendee(req, res) {
+    try {
+      const { eventId } = req.params.id;
+      const userId = req.user.id;
+      const attendee = await EventService.addAttendee({ eventId, userId });
+      return res.status(201).json(attendee);
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(500)
+        .json({ message: "An error occurred while adding the attendee", error });
+    }
   }
 }
 

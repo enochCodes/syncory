@@ -123,6 +123,35 @@ class UserController {
       });
     }
   }
-}
 
+  async getOrganizers(__, res) {
+    try {
+      const organizers = await UserService.getOrganizers();
+      return res.status(200).json(organizers);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "An error occurred while fetching the organizers",
+        error,
+      });
+    }
+  }
+
+  async getOrganizerById(req, res) {
+    try {
+      const organizerId = req.params.id;
+      const organizers = await UserService.getOrganizersById(organizerId);
+      if (!organizers) {
+        return res.status(404).json({ message: "Organizer not found" });
+      }
+      return res.status(200).json(organizers);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "An error occurred while fetching the organizer",
+        error,
+      });
+    }
+  }
+}
 export default new UserController();

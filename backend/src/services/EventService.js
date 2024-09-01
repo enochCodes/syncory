@@ -84,6 +84,25 @@ class EventService {
     }
     return event.destroy();
   }
+
+  static async addAttendee({eventId, userId}) {
+    const event = await Event.findByPk(eventId);
+    if (!event) {
+      throw new Error("Event not found");
+    }
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    if (event.attendeesIds.includes(userId)) {
+      throw new Error("User already attending the event");
+    }
+
+    event.attendeesIds.push(userId);
+    return event.save();
+  }
 }
 
 export default EventService;
