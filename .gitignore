@@ -39,5 +39,6 @@ Thumbs.db
 *.swo
 *.bak
 
-# Node.js modules /node_modules/
+# Node.js modules
+client-side/node_modules/
 node_modules/

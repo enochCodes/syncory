@@ -1,6 +1,15 @@
 version: '4.33.1'
 
 services:
+  app:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://postgres:122221enochCodes@db:5432/syncory_db
+    depends_on:
+      - db
+
   db:
     image: postgres:16
     volumes:
@@ -9,24 +18,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 122221enochCodes
       POSTGRES_DB: syncory_db
-    networks:
-      - syncory-network
-
-  app:
-    build: ./backend
-    ports:
-      - "3000:3000"
-    environment:
-      DATABASE_URL: postgresql://postgres:122221enochCodes@db:5432/syncory_db
-      NODE_ENV: development # or production based on your environment
-    depends_on:
-      - db
-    networks:
-      - syncory-network
 
 volumes:
   db-data:
-
-networks:
-  syncory-network:
-    driver: bridge
