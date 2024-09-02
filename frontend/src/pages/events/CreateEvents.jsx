@@ -26,7 +26,7 @@ const CreateEventPage = () => {
                             <input
                                 type="text"
                                 placeholder="Enter event title"
-                                className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500  bg-white"
                             />
                         </div>
                         <div className="space-y-2">
@@ -35,7 +35,7 @@ const CreateEventPage = () => {
                             </label>
                             <input
                                 type="datetime-local"
-                                className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500  bg-white"
                             />
                         </div>
                         <div className="space-y-2">
@@ -45,7 +45,7 @@ const CreateEventPage = () => {
                             <input
                                 type="text"
                                 placeholder="Enter event location"
-                                className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500  bg-white"
                             />
                         </div>
                         <div className="space-y-2">
@@ -55,14 +55,14 @@ const CreateEventPage = () => {
                             <input
                                 type="number"
                                 placeholder="Enter event capacity"
-                                className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500  bg-white"
                             />
                         </div>
                         <div className="space-y-2">
                             <label className="block text-gray-600 text-sm font-medium">
                                 Category
                             </label>
-                            <select className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500">
+                            <select className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500  bg-white">
                                 <option value="">Select a category</option>
                                 <option value="music">Music</option>
                                 <option value="sports">Sports</option>
@@ -76,7 +76,7 @@ const CreateEventPage = () => {
                             </label>
                             <textarea
                                 placeholder="Describe your event"
-                                className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500  bg-white"
                                 rows="5"
                             />
                         </div>

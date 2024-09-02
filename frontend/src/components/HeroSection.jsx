@@ -15,7 +15,7 @@ const HeroSection = () => {
                 <div className="flex justify-center max-w-lg mx-auto animate-bounce-in-up delay-2">
                     <input
                         type="text"
-                        className="w-full px-5 py-3 text-black rounded-l-full focus:outline-none shadow-lg"
+                        className="w-full px-5 py-3 text-black rounded-l-full focus:outline-none shadow-lg  bg-white"
                         placeholder="Search events"
                     />
                     <button className="bg-orange-500 text-white px-8 py-3 rounded-r-full font-semibold hover:bg-orange-600 shadow-lg transition-all duration-300">

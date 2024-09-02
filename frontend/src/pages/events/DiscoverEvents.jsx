@@ -13,7 +13,7 @@ const DiscoverEventsPage = () => {
                         <input
                             type="text"
                             placeholder="Search events by name, category, or location"
-                            className="w-full px-6 py-3 text-black rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
+                            className="w-full px-6 py-3 text-black rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-400  bg-white"
                         />
                         <button className="absolute right-0 top-0 mt-2 mr-3 bg-black text-white p-3 rounded-full hover:bg-orange-600 transition duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
@@ -35,11 +35,11 @@ const DiscoverEventsPage = () => {
                         <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition duration-200">Tech Talks</button>
                     </div>
                     <div className="flex space-x-4">
-                        <select className="px-4 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none">
+                        <select className="px-4 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none  bg-white">
                             <option>Sort by Date</option>
                             <option>Sort by Popularity</option>
                         </select>
-                        <select className="px-4 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none">
+                        <select className="px-4 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none  bg-white">
                             <option>Location</option>
                             <option>New York</option>
                             <option>San Francisco</option>

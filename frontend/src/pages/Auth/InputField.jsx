@@ -14,7 +14,7 @@ const InputField = ({ type, placeholder, value, onChange, icon, error }) => {
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
-                className={`w-full px-4 py-2 pl-10 ${icon ? 'pl-10' : ''} border ${error ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500`}
+                className={`w-full px-4 py-2 ${icon ? 'pl-10' : ''} border ${error ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white`}
             />
             {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         </div>
