@@ -5,8 +5,8 @@ import CreateEvent from '../pages/events/CreateEvents';
 import LoginPage from '../pages/Auth/Login';
 import SignUpPage from '../pages/Auth/Signup';
 import ForgotPage from '../pages/Auth/ForgotPassword';
-import OrganizerDashboard from "../pages/Dashboard/OrganizerDashboard";
-import AttendeeDashboard from "../pages/Dashboard/AttendeeDashboard";
+// import OrganizerDashboard from "../pages/Dashboard/OrganizerDashboard";
+// import AttendeeDashboard from "../pages/Dashboard/AttendeeDashboard";
 
 
 const AppRoutes = () => {
@@ -19,8 +19,8 @@ const AppRoutes = () => {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignUpPage/>}/>
                 <Route path="/forgot-password" element={<ForgotPage/>}/>
-                <Route path="/organizer-Dashbord" element={<OrganizerDashboard />} />
-                <Route path="/Dashbord" element={<AttendeeDashboard/>}/>
+                {/* <Route path="/organizer-Dashbord" element={<OrganizerDashboard />} />
+                <Route path="/Dashbord" element={<AttendeeDashboard/>}/> */}
 
             </Routes>
         </Router>

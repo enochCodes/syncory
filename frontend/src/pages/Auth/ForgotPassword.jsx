@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import InputField from '../Auth/InputField';
-import AuthButton from '../Auth/AuthButton';
+import InputField from '../../components/Auth/InputField';
+import AuthButton from '../../components/Auth/AuthButton';
 import { FiMail } from 'react-icons/fi';
 
 const ForgotPasswordPage = () => {

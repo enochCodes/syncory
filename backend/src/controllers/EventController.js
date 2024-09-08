@@ -45,9 +45,28 @@ class EventController {
       capacity,
       categoryId,
       organizerId,
+      thumbnail,
+      price,
+      // isFree,
     } = req.body;
 
     try {
+      // Validate required fields
+      if (
+        !title ||
+        !description ||
+        !date ||
+        !location ||
+        !capacity ||
+        !categoryId ||
+        !thumbnail ||
+        !price
+        // !isFree
+      ) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      // Create the event
       const event = await EventService.createEvent({
         title,
         description,
@@ -56,7 +75,10 @@ class EventController {
         capacity,
         categoryId,
         organizerId,
-        creatorId: req.user.id, // The ID of the creator the event
+        thumbnail,
+        price,
+        // isFree,
+        creatorId: req.user.id, // The ID of the creator of the event
       });
 
       return res
@@ -66,40 +88,17 @@ class EventController {
       console.error(error);
       return res
         .status(500)
-        .json({ message: "An error occurred while creating the event", error });
-    }
-  }
-
-  static async updateEvent(req, res) {
-    const { title, description, date, location, capacity, categoryId } = req.body;
-
-    try {
-      const eventId = req.params.id; // Extract the event ID from the request parameters
-      const event = await EventService.updateEvent({
-        id: eventId,
-        title,
-        description,
-        date,
-        location,
-        capacity,
-        categoryId,
-      });
-
-      return res
-        .status(200)
-        .json({ message: "Event updated successfully", event });
-    } catch (error) {
-      console.error(error);
-      return res
-        .status(500)
-        .json({ message: "An error occurred while updating the event", error });
+        .json({
+          message: "An error occurred while creating the event",
+          error: error.message,
+        });
     }
   }
 
   static async deleteEvent(req, res) {
     try {
       const eventId = req.params.id; // Extract the event ID from the request parameters
-      await EventService.deleteEvent({id: eventId});
+      await EventService.deleteEvent({ id: eventId });
       return res.status(200).json({ message: "Event deleted successfully" });
     } catch (error) {
       console.error(error);
@@ -107,7 +106,6 @@ class EventController {
         .status(500)
         .json({ message: "An error occurred while deleting the event", error });
     }
-    
   }
 
   static async addAttendee(req, res) {
@@ -120,7 +118,10 @@ class EventController {
       console.error(error);
       return res
         .status(500)
-        .json({ message: "An error occurred while adding the attendee", error });
+        .json({
+          message: "An error occurred while adding the attendee",
+          error,
+        });
     }
   }
 }

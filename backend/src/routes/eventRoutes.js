@@ -17,7 +17,7 @@ router.post(
     EventController.createEvent
 );
 
-router.put('/events/:id', authMiddleware, EventController.updateEvent)
+// router.put('/events/:id', authMiddleware, EventController.updateEvent)
 
 router.delete('/events/:id', authMiddleware, EventController.deleteEvent)
 

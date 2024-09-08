@@ -28,10 +28,10 @@ router.put(
 router.post("/categories", authMiddleware, RoleCheckMiddleware('organizer'), UserController.addCategories);
 
 // GET /categories - Get all categories
-router.get("/categories", authMiddleware, RoleCheckMiddleware('organizer'), UserController.getCategories);
+router.get("/categories", authMiddleware, UserController.getCategories);
 
 // GET /categories/:id - Get a category by ID
-router.get("/categories/:id", authMiddleware, RoleCheckMiddleware('organizer'), UserController.getCategoryById);
+router.get("/categories/:id", authMiddleware, UserController.getCategoryById);
 
 // PUT /categories/:id - Update a category by ID
 router.put("/categories/:id", authMiddleware, RoleCheckMiddleware('organizer'), UserController.updateCategory);

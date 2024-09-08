@@ -4,8 +4,12 @@ import sequelize from './config/database.js';
 import AuthRoutes from "./routes/authRoutes.js";
 import UserRoutes from "./routes/userRoutes.js";
 import EventRoutes from "./routes/eventRoutes.js";
+import cors from "cors";
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(cors());
+
 
 // Middleware
 app.use(express.json());
@@ -22,7 +26,7 @@ async function testDatabaseConnection() {
 
 // Define a route
 app.use('/api/v1/auth/users', AuthRoutes);
-app.use('/api/v1/users/', UserRoutes);
+app.use('/api/v1/users', UserRoutes);
 app.use('/api/v1/', EventRoutes);
 
 // Start the server

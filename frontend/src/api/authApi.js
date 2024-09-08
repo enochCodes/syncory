@@ -1,23 +1,54 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:4000/api/v1/"; // adjust to your backend API
+// Use environment variable for API base URL
+const API_BASE_URL = "http://localhost:4000/api/v1/";
 
+export const storeAuthToken = (token) => {
+  localStorage.setItem("authToken", token);
+};
+// Login function
 export const loginUser = async (email, password) => {
-  const response = await axios.post(`${API_BASE_URL}/login`, {
-    email,
-    password,
-  });
-  return response.data;
+  try {
+    const response = await axios.post(`${API_BASE_URL}auth/users/login`, {
+      email,
+      password,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error logging in:",
+      error.response ? error.response.data : error.message
+    );
+    throw error;
+  }
 };
 
-export const registerUser = async (userData) => {
-  const response = await axios.post(`${API_BASE_URL}/register`, userData);
-  return response.data;
+
+// Register function
+export const registerUser = async (name, email, password) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}auth/users/register`,{
+      name,
+      email,
+      password,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error registering user:", error);
+    throw error.response?.data || error.message;
+  }
 };
 
 export const getUserProfile = async (token) => {
-  const response = await axios.get(`${API_BASE_URL}/profile`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data;
-};
+  try {
+    const response = await axios.get(`${API_BASE_URL}users/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    throw error;
+  }
+}
