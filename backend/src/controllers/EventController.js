@@ -1,5 +1,5 @@
 import EventService from "../services/EventService.js";
-import EventAttendees from "../models/EventAttendees.js";
+// import EventAttendees from "../models/EventAttendees.js";
 
 /**
  * Adds a user as an attendee to an event.
@@ -39,59 +39,36 @@ class EventController {
   static async createEvent(req, res) {
     const {
       title,
-      description,
       date,
       location,
       capacity,
       categoryId,
+      description,
       organizerId,
-      thumbnail,
       price,
       // isFree,
     } = req.body;
+    const thumbnail = req.file ? req.file.path : null;
 
     try {
-      // Validate required fields
-      if (
-        !title ||
-        !description ||
-        !date ||
-        !location ||
-        !capacity ||
-        !categoryId ||
-        !thumbnail ||
-        !price
-        // !isFree
-      ) {
-        return res.status(400).json({ message: "Missing required fields" });
-      }
-
-      // Create the event
-      const event = await EventService.createEvent({
+      const event = await Event.create({
         title,
-        description,
         date,
         location,
         capacity,
         categoryId,
-        organizerId,
-        thumbnail,
+        description,
         price,
-        // isFree,
-        creatorId: req.user.id, // The ID of the creator of the event
+        thumbnail,
+        organizerId,
       });
-
       return res
         .status(201)
         .json({ message: "Event created successfully", event });
     } catch (error) {
-      console.error(error);
       return res
         .status(500)
-        .json({
-          message: "An error occurred while creating the event",
-          error: error.message,
-        });
+        .json({ message: "Server error", error: error.message });
     }
   }
 
@@ -116,12 +93,10 @@ class EventController {
       return res.status(201).json(attendee);
     } catch (error) {
       console.error(error);
-      return res
-        .status(500)
-        .json({
-          message: "An error occurred while adding the attendee",
-          error,
-        });
+      return res.status(500).json({
+        message: "An error occurred while adding the attendee",
+        error,
+      });
     }
   }
 }
