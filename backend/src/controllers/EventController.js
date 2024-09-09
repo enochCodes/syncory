@@ -1,5 +1,5 @@
 import EventService from "../services/EventService.js";
-import EventAttendees from "../models/EventAttendees.js";
+// import EventAttendees from "../models/EventAttendees.js";
 
 /**
  * Adds a user as an attendee to an event.
@@ -39,60 +39,35 @@ class EventController {
   static async createEvent(req, res) {
     const {
       title,
-      description,
       date,
       location,
       capacity,
       categoryId,
+      description,
+      price,
       organizerId,
     } = req.body;
+    const thumbnail = req.file ? req.file.path : null;
 
     try {
-      const event = await EventService.createEvent({
+      const event = await Event.create({
         title,
-        description,
         date,
         location,
         capacity,
         categoryId,
+        description,
+        price,
+        thumbnail,
         organizerId,
-        creatorId: req.user.id, // The ID of the creator the event
       });
-
       return res
         .status(201)
         .json({ message: "Event created successfully", event });
     } catch (error) {
-      console.error(error);
       return res
         .status(500)
-        .json({ message: "An error occurred while creating the event", error });
-    }
-  }
-
-  static async updateEvent(req, res) {
-    const { title, description, date, location, capacity, categoryId } = req.body;
-
-    try {
-      const eventId = req.params.id; // Extract the event ID from the request parameters
-      const event = await EventService.updateEvent({
-        id: eventId,
-        title,
-        description,
-        date,
-        location,
-        capacity,
-        categoryId,
-      });
-
-      return res
-        .status(200)
-        .json({ message: "Event updated successfully", event });
-    } catch (error) {
-      console.error(error);
-      return res
-        .status(500)
-        .json({ message: "An error occurred while updating the event", error });
+        .json({ message: "Server error", error: error.message });
     }
   }
 
@@ -118,9 +93,10 @@ class EventController {
       return res.status(201).json(attendee);
     } catch (error) {
       console.error(error);
-      return res
-        .status(500)
-        .json({ message: "An error occurred while adding the attendee", error });
+      return res.status(500).json({
+        message: "An error occurred while adding the attendee",
+        error,
+      });
     }
   }
 }
