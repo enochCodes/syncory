@@ -17,12 +17,12 @@ class AuthService {
 
     const hashedPassword = await hashPassword(password);
 
-    if (role === undefined) {
+    if (role === "attendee") {
       return await User.create({
         username,
         email,
         password: hashedPassword,
-        role: "attendee",
+        role,
       });
     } else if (role === "organizer") {
       return await User.create({
@@ -39,12 +39,12 @@ class AuthService {
         throw new Error("Forbidden: Insufficient privileges");
       }
 
-      return await User.create({
-        username,
-        email,
-        password: hashedPassword,
-        role,
-      });
+      // return await User.create({
+      //   username,
+      //   email,
+      //   password: hashedPassword,
+      //   role,
+      // });
     }
   }
 

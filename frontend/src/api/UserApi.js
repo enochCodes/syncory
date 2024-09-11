@@ -4,7 +4,6 @@ const API_BASE_URL = "http://localhost:4000/api/v1/";
 
 // Function to get the authentication token
 const getAuthToken = () => {
-  // Replace this with the actual logic to retrieve the token
   return localStorage.getItem("authToken");
 };
 

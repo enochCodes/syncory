@@ -21,7 +21,6 @@ class EventService {
     creatorId,
     thumbnail,
     price,
-    // isFree,
   }) {
     try {
       // Validate required fields
@@ -32,10 +31,7 @@ class EventService {
         !location ||
         !capacity ||
         !categoryId ||
-        !creatorId ||
-        !thumbnail ||
-        !price
-        // !isFree
+        !creatorId
       ) {
         throw new Error("Missing required fields");
       }
@@ -73,9 +69,8 @@ class EventService {
         capacity,
         categoryId,
         organizerId,
-        thumbnail,
-        price,
-        // isFree,
+        thumbnail: thumbnail || null,
+        price: price || 0.0,
         attendeesIds: [creatorId],
       });
 
@@ -96,7 +91,6 @@ class EventService {
     categoryId,
     thumbnail,
     price,
-    // isFree,
   }) {
     const event = await Event.findByPk(id);
     if (!event) {
@@ -111,7 +105,6 @@ class EventService {
       categoryId,
       thumbnail,
       price,
-      // isFree,
     });
   }
 

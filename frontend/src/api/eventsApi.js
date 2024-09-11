@@ -27,19 +27,33 @@ export const getEvent = async (id) => {
 
 // Create an event
 export const createEvent = async (eventData) => {
-  try {
-    const token = localStorage.getItem("authToken"); // Retrieve the token from local storage
-    const response = await axios.post(`${API_BASE_URL}events`, eventData, {
+  const token = localStorage.getItem("authToken");
+  const response = await axios.post(
+    `${API_BASE_URL}events`,
+    eventData,
+    {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Include the token in the request headers
+        Authorization: `Bearer ${token}`,
       },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error creating event:", error);
-    throw error;
-  }
+    }
+  );
+  return response;
+};
+
+export const uploadThumbnail = async (formData) => {
+  const token = localStorage.getItem("authToken");
+  const response = await axios.post(
+   `${API_BASE_URL}upload`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
 };
 
 // Update an event

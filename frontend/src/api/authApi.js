@@ -6,6 +6,7 @@ const API_BASE_URL = "http://localhost:4000/api/v1/";
 export const storeAuthToken = (token) => {
   localStorage.setItem("authToken", token);
 };
+
 // Login function
 export const loginUser = async (email, password) => {
   try {
@@ -23,19 +24,40 @@ export const loginUser = async (email, password) => {
   }
 };
 
-
 // Register function
-export const registerUser = async (name, email, password) => {
+export const registerUser = async ({
+  username,
+  email,
+  password,
+  role,
+  brandName,
+  description,
+}) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}auth/users/register`,{
-      name,
+    const payload = {
+      username,
       email,
       password,
-    });
+      role,
+      brandName: role === "organizer" ? brandName : undefined,
+      description: role === "organizer" ? description : undefined,
+    };
+
+    console.log("Payload:", payload); // Log the payload for debugging
+
+    const response = await axios.post(
+      `${API_BASE_URL}auth/users/register`,
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error registering user:", error);
-    throw error.response?.data || error.message;
+    throw error.response ? error.response.data : error.message;
   }
 };
 
@@ -51,4 +73,4 @@ export const getUserProfile = async (token) => {
     console.error("Error fetching user profile:", error);
     throw error;
   }
-}
+};

@@ -1,6 +1,5 @@
 import EventService from "../services/EventService.js";
-// import EventAttendees from "../models/EventAttendees.js";
-
+import Event from "../models/event.js";
 /**
  * Adds a user as an attendee to an event.
  * @param {number} userId - The ID of the user.
@@ -10,13 +9,13 @@ import EventService from "../services/EventService.js";
 class EventController {
   static async getAllEvents(__, res) {
     try {
-      const events = await EventService.getAllEvents();
+      const events = await Event.findAll();
       return res.status(200).json(events);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching events:", error);
       return res
         .status(500)
-        .json({ message: "An error occurred while fetching events", error });
+        .json({ message: "Server error", error: error.message });
     }
   }
 
@@ -29,10 +28,10 @@ class EventController {
       }
       return res.status(200).json(event);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching event:", error);
       return res
         .status(500)
-        .json({ message: "An error occurred while fetching the event", error });
+        .json({ message: "Server error", error: error.message });
     }
   }
 
@@ -44,11 +43,11 @@ class EventController {
       capacity,
       categoryId,
       description,
-      organizerId,
       price,
-      // isFree,
+      organizerId,
+      creatorId,
+      thumbnail,
     } = req.body;
-    const thumbnail = req.file ? req.file.path : null;
 
     try {
       const event = await Event.create({
@@ -61,11 +60,13 @@ class EventController {
         price,
         thumbnail,
         organizerId,
+        creatorId,
       });
       return res
         .status(201)
         .json({ message: "Event created successfully", event });
     } catch (error) {
+      console.error("Error creating event:", error);
       return res
         .status(500)
         .json({ message: "Server error", error: error.message });
