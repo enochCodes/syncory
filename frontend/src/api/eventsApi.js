@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Use environment variable for API base URL
-const API_BASE_URL = "http://localhost:4000/api/v1/";
+const API_BASE_URL = "http://api.syncory.aksumiteplatforms.tech/api/v1/";
 
 // Get all events
 export const getEvents = async () => {
