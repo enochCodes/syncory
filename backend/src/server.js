@@ -11,7 +11,7 @@ import cors from "cors";
 dotenv.config(); // Load environment variables from .env file
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT;
 app.use(cors());
 
 // Get __dirname equivalent in ES modules
