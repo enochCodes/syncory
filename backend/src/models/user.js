@@ -1,10 +1,10 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database.js";
 
-const User = sequelize.define(
-  "User",
+class User extends Model {}
+
+User.init(
   {
-    // Define attributes
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -43,6 +43,8 @@ const User = sequelize.define(
     },
   },
   {
+    sequelize,
+    modelName: "User",
     timestamps: true,
   }
 );

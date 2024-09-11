@@ -1,7 +1,14 @@
 import PropTypes from 'prop-types';
 import '../../assets/styles/tailwind.css';
 
-const InputField = ({ type, placeholder, value, onChange, icon, error }) => {
+const InputField = ({
+    type = 'text',
+    placeholder = '',
+    value = '',
+    onChange = () => { },
+    icon = null,
+    error = '',
+}) => {
     return (
         <div className="relative mb-4">
             {icon && (
@@ -14,7 +21,7 @@ const InputField = ({ type, placeholder, value, onChange, icon, error }) => {
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
-                className={`w-full px-4 py-2 pl-10 ${icon ? 'pl-10' : ''} border ${error ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500`}
+                className={`w-full px-4 py-2 ${icon ? 'pl-10' : ''} border ${error ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white`}
             />
             {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         </div>
@@ -24,17 +31,10 @@ const InputField = ({ type, placeholder, value, onChange, icon, error }) => {
 InputField.propTypes = {
     type: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
-    value: PropTypes.string,
-    onChange: PropTypes.func,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onChange: PropTypes.func.isRequired,
     icon: PropTypes.element,
     error: PropTypes.string,
-};
-
-InputField.defaultProps = {
-    value: '',
-    onChange: () => { },
-    icon: null,
-    error: '',
 };
 
 export default InputField;

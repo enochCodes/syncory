@@ -9,7 +9,7 @@ import Footer from '../components/Footer';
 const HomePage = () => {
     return (
         <>
-            <Header />
+            <Header/>
             <HeroSection />
             <WhyChooseUs />
             <FeaturedEvents />

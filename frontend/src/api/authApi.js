@@ -1,23 +1,76 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:4000/api/v1/"; // adjust to your backend API
+// Use environment variable for API base URL
+const API_BASE_URL = "http://localhost:4000/api/v1/";
 
-export const loginUser = async (email, password) => {
-  const response = await axios.post(`${API_BASE_URL}/login`, {
-    email,
-    password,
-  });
-  return response.data;
+export const storeAuthToken = (token) => {
+  localStorage.setItem("authToken", token);
 };
 
-export const registerUser = async (userData) => {
-  const response = await axios.post(`${API_BASE_URL}/register`, userData);
-  return response.data;
+// Login function
+export const loginUser = async (email, password) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}auth/users/login`, {
+      email,
+      password,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error logging in:",
+      error.response ? error.response.data : error.message
+    );
+    throw error;
+  }
+};
+
+// Register function
+export const registerUser = async ({
+  username,
+  email,
+  password,
+  role,
+  brandName,
+  description,
+}) => {
+  try {
+    const payload = {
+      username,
+      email,
+      password,
+      role,
+      brandName: role === "organizer" ? brandName : undefined,
+      description: role === "organizer" ? description : undefined,
+    };
+
+    console.log("Payload:", payload); // Log the payload for debugging
+
+    const response = await axios.post(
+      `${API_BASE_URL}auth/users/register`,
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error registering user:", error);
+    throw error.response ? error.response.data : error.message;
+  }
 };
 
 export const getUserProfile = async (token) => {
-  const response = await axios.get(`${API_BASE_URL}/profile`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data;
+  try {
+    const response = await axios.get(`${API_BASE_URL}users/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    throw error;
+  }
 };

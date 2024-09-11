@@ -1,84 +1,49 @@
 import express from "express";
-import { body, validationResult } from "express-validator";
-import User from "../models/user.js";
+import { body } from "express-validator";
 import authMiddleware from "../middlewares/authMiddleware.js";
+import UserController from "../controllers/userController.js";
+import RoleCheckMiddleware from "../middlewares/RoleCheckMiddleware.js";
 
+/**
+ * Express router for handling user routes.
+ * @type {import('express').Router}
+ */
 const router = express.Router();
 
 // GET /profile - Get user profile
-router.get("/profile", authMiddleware, async (req, res) => {
-  try {
-    const user = await User.findByPk(req.user.id, {
-      attributes: { exclude: ["password"] },
-    });
+router.get("/profile", authMiddleware, UserController.getProfile);
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    return res.status(200).json(user);
-  } catch (error) {
-    return res.status(500).json({ message: "Server error", error });
-  }
-});
-
-// PUT /profile - Update user profie
+// PUT /profile - Update user profile
 router.put(
   "/profile",
   authMiddleware,
-  // Input validation using express-validator
   [
     body("email").isEmail().withMessage("Please provide a valid email"),
     body("username").notEmpty().withMessage("Username is required"),
   ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { username, email, brandName, description, password } = req.body;
-
-    try {
-      const user = await User.findByPk(req.user.id);
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-
-      // Check if email is already taken by another user
-      if (email && email !== user.email) {
-        const emailExists = await User.findOne({ where: { email } });
-        if (emailExists) {
-          return res.status(400).json({ message: "Email is already in use" });
-        }
-      }
-
-      // check the role and add fileds 
-      const ORGANIZER = "organizer";
-      if (user.role === ORGANIZER){
-        if (brandName === undefined || description === undefined){
-          return res.status(400).json({ message: "Brand name and description are required" });
-        }
-        user.username = username;
-        user.email = email;
-        user.brandName = brandName;
-        user.description = description;
-        if (password) user.password = password;
-
-      }
-      else{
-        user.username = username;
-        user.email = email;
-        user.password = password;
-      }
-
-      await user.save();
-
-      return res.status(200).json({ message: "Profile updated successfully" });
-    } catch (error) {
-      return res.status(500).json({ message: "Server error", error });
-    }
-  }
+  UserController.updateProfile
 );
+// for Organizer Users categories endpoints
+// POST /categories - Add a new category
+router.post("/categories", authMiddleware, RoleCheckMiddleware('organizer'), UserController.addCategories);
+
+// GET /categories - Get all categories
+router.get("/categories", authMiddleware, UserController.getCategories);
+
+// GET /categories/:id - Get a category by ID
+router.get("/categories/:id", authMiddleware, UserController.getCategoryById);
+
+// PUT /categories/:id - Update a category by ID
+router.put("/categories/:id", authMiddleware, RoleCheckMiddleware('organizer'), UserController.updateCategory);
+
+// DELETE /categories/:id - Delete a category by ID
+router.delete("/categories/:id", authMiddleware, RoleCheckMiddleware('organizer'), UserController.deleteCategory);
+
+// GET /organizers - get all organizer
+router.get("/organizers", authMiddleware, UserController.getOrganizers);
+
+// GET /organizers/:id - get organizer by id
+router.get("/organizers/:id", authMiddleware, UserController.getOrganizerById);
+
 
 export default router;

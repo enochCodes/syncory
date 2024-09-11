@@ -1,7 +1,12 @@
 import PropTypes from 'prop-types';
 import '../../assets/styles/tailwind.css';
 
-const AuthButton = ({ text, isGoogle, icon, onClick }) => {
+const AuthButton = ({
+    text,
+    isGoogle = false,
+    icon = null,
+    onClick = () => { },
+}) => {
     return (
         <button
             type="button"
@@ -23,12 +28,6 @@ AuthButton.propTypes = {
     isGoogle: PropTypes.bool,
     icon: PropTypes.element,
     onClick: PropTypes.func,
-};
-
-AuthButton.defaultProps = {
-    isGoogle: false,
-    icon: null,
-    onClick: () => { },
 };
 
 export default AuthButton;
