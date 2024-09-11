@@ -3,7 +3,7 @@ export const content = ["./src/**/*.{js,jsx,ts,tsx}"];
 export const theme = {
   extend: {
     backgroundImage: {
-      "hero-pattern": "url('./src/assets/images/hero-bg.png')", // Adjust the path
+      "hero-pattern": "url('/src/assets/images/hero-bg.png')", // Adjust the path
     },
     keyframes: {
       fadeInDown: {
