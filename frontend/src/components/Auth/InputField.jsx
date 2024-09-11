@@ -1,7 +1,14 @@
 import PropTypes from 'prop-types';
 import '../../assets/styles/tailwind.css';
 
-const InputField = ({ type, placeholder, value, onChange, icon, error }) => {
+const InputField = ({
+    type = 'text',
+    placeholder = '',
+    value = '',
+    onChange = () => { },
+    icon = null,
+    error = '',
+}) => {
     return (
         <div className="relative mb-4">
             {icon && (
@@ -24,17 +31,10 @@ const InputField = ({ type, placeholder, value, onChange, icon, error }) => {
 InputField.propTypes = {
     type: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
-    value: PropTypes.string,
-    onChange: PropTypes.func,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onChange: PropTypes.func.isRequired,
     icon: PropTypes.element,
     error: PropTypes.string,
-};
-
-InputField.defaultProps = {
-    value: '',
-    onChange: () => { },
-    icon: null,
-    error: '',
 };
 
 export default InputField;

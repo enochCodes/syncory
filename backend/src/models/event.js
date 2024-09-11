@@ -35,6 +35,10 @@ Event.init(
         key: "id",
       },
     },
+    thumbnail: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     capacity: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -42,6 +46,16 @@ Event.init(
     categoryId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    price: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      defaultValue: 0.0,
+    },
+    isFree: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
     },
   },
   {

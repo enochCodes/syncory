@@ -19,37 +19,66 @@ class EventService {
     categoryId,
     organizerId,
     creatorId,
+    thumbnail,
+    price,
   }) {
-    const creator = await User.findByPk(creatorId);
-    if (!creator) {
-      throw new Error("Invalid creator ID");
-    }
-
-    if (creator.role === "organizer") {
-      organizerId = creator.id;
-    } else {
-      if (organizerId) {
-        const organizer = await User.findOne({
-          where: { id: organizerId, role: "organizer" },
-        });
-        if (!organizer) {
-          throw new Error("Invalid organizer ID");
-        }
-      } else {
-        throw new Error("Invalid organizer ID");
+    try {
+      // Validate required fields
+      if (
+        !title ||
+        !description ||
+        !date ||
+        !location ||
+        !capacity ||
+        !categoryId ||
+        !creatorId
+      ) {
+        throw new Error("Missing required fields");
       }
-    }
 
-    return Event.create({
-      title,
-      description,
-      date,
-      location,
-      capacity,
-      categoryId,
-      organizerId,
-      attendeesIds: [creatorId],
-    });
+      // Find the creator
+      const creator = await User.findByPk(creatorId);
+      if (!creator) {
+        throw new Error("Invalid creator ID");
+      }
+
+      // Determine the organizer
+      if (creator.role === "organizer") {
+        organizerId = creator.id;
+      } else {
+        if (organizerId) {
+          const organizer = await User.findOne({
+            where: { id: organizerId, role: "organizer" },
+          });
+          if (!organizer) {
+            throw new Error("Invalid organizer ID");
+          }
+        } else {
+          throw new Error(
+            "Organizer ID is required for non-organizer creators"
+          );
+        }
+      }
+
+      // Create the event
+      const event = await Event.create({
+        title,
+        description,
+        date,
+        location,
+        capacity,
+        categoryId,
+        organizerId,
+        thumbnail: thumbnail || null,
+        price: price || 0.0,
+        attendeesIds: [creatorId],
+      });
+
+      return event;
+    } catch (error) {
+      console.error("Error creating event:", error);
+      throw new Error(`Error creating event: ${error.message}`);
+    }
   }
 
   static async updateEvent({
@@ -60,6 +89,8 @@ class EventService {
     location,
     capacity,
     categoryId,
+    thumbnail,
+    price,
   }) {
     const event = await Event.findByPk(id);
     if (!event) {
@@ -72,12 +103,12 @@ class EventService {
       location,
       capacity,
       categoryId,
+      thumbnail,
+      price,
     });
   }
 
-  static async deleteEvent({
-    id
-  }) {
+  static async deleteEvent({ id }) {
     const event = await Event.findByPk(id);
     if (!event) {
       throw new Error("Event not found");
@@ -85,7 +116,7 @@ class EventService {
     return event.destroy();
   }
 
-  static async addAttendee({eventId, userId}) {
+  static async addAttendee({ eventId, userId }) {
     const event = await Event.findByPk(eventId);
     if (!event) {
       throw new Error("Event not found");

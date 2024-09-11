@@ -2,9 +2,9 @@ import express from 'express';
 import authMiddleware from '../middlewares/authMiddleware.js';
 import EventController from '../controllers/eventController.js';
 import upload from "../middlewares/upload.js";
+import UploadController from '../controllers/uploadController.js';
 
 const router = express.Router();
-const eventController = new EventController();
 
 // GET /events - Get all events
 router.get('/events', EventController.getAllEvents);
@@ -15,12 +15,18 @@ router.get('/events/:id', EventController.getEventById);
 // POST /events - Create a new event by an attendee
 router.post(
     '/events',
-    upload.single('thumbnail'),
     authMiddleware,
-    eventController.createEvent
+    EventController.createEvent
 );
 
-router.put('/events/:id', authMiddleware, EventController.updateEvent)
+router.post(
+  '/upload',
+  authMiddleware,
+  upload.single('thumbnail'),
+  UploadController.uploadThumbnail
+);
+
+// router.put('/events/:id', authMiddleware, EventController.updateEvent)
 
 router.delete('/events/:id', authMiddleware, EventController.deleteEvent)
 

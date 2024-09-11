@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { getUserProfile } from '../api/authApi'; // Import the getUserProfile function
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [user, setUser] = useState(null);
     const location = useLocation();
+    const navigate = useNavigate();
 
     // Determine if the current route should have a transparent header
     const isTransparent = location.pathname === "/" && !isScrolled;
@@ -23,6 +26,31 @@ const Header = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    // Fetch user profile if token exists
+    useEffect(() => {
+        const fetchUser = async () => {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                try {
+                    const userData = await getUserProfile(token);
+                    setUser(userData);
+                } catch (error) {
+                    console.error('Error fetching user profile:', error);
+                    localStorage.removeItem('authToken');
+                    navigate('/login');
+                }
+            }
+        };
+
+        fetchUser();
+    }, [navigate]);
+
+    const handleLogout = () => {
+        localStorage.removeItem('authToken'); // Remove token from localStorage
+        setUser(null);
+        navigate('/login'); // Redirect to login page
+    };
+
     return (
         <header
             className={`fixed w-full z-50 transition-colors duration-300 ${isTransparent ? "bg-transparent" : "bg-black shadow-lg"
@@ -38,7 +66,7 @@ const Header = () => {
                     <Link to="/" className="text-white hover:text-orange-400 transition-colors">
                         Home
                     </Link>
-                    <Link to="/discover" className="text-white hover:text-orange-400 transition-colors">
+                    <Link to="/events/discover" className="text-white hover:text-orange-400 transition-colors">
                         Discover Events
                     </Link>
                     <Link to="/create" className="text-white hover:text-orange-400 transition-colors">
@@ -47,11 +75,25 @@ const Header = () => {
                 </nav>
 
                 <div className="hidden md:flex items-center space-x-4">
-                    <Link to="/login">
-                        <button className="bg-yellow-500 text-black px-5 py-2 rounded-md font-semibold hover:bg-yellow-600 transition-colors">
-                            Sign In
-                        </button>
-                    </Link>
+                    {user ? (
+                        <>
+                            <Link to="/profile" className="text-white hover:text-orange-400 transition-colors">
+                                {user.username}
+                            </Link>
+                            <button
+                                onClick={handleLogout}
+                                className="bg-yellow-500 text-black px-5 py-2 rounded-md font-semibold hover:bg-yellow-600 transition-colors"
+                            >
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <Link to="/login">
+                            <button className="bg-yellow-500 text-black px-5 py-2 rounded-md font-semibold hover:bg-yellow-600 transition-colors">
+                                Sign In
+                            </button>
+                        </Link>
+                    )}
                 </div>
 
                 {/* Hamburger Menu for Mobile */}
@@ -106,13 +148,34 @@ const Header = () => {
                     >
                         Create an Event
                     </Link>
-                    <Link
-                        to="/login"
-                        className="block py-2 bg-yellow-500 text-black mt-2 rounded-md font-semibold mx-4 hover:bg-yellow-600 transition-colors"
-                        onClick={() => setIsMenuOpen(false)}
-                    >
-                        Sign In
-                    </Link>
+                    {user ? (
+                        <>
+                            <Link
+                                to="/profile"
+                                className="block py-2 text-white hover:text-orange-400 transition-colors"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                {user.name}
+                            </Link>
+                            <button
+                                onClick={() => {
+                                    handleLogout();
+                                    setIsMenuOpen(false);
+                                }}
+                                className="block py-2 bg-yellow-500 text-black mt-2 rounded-md font-semibold mx-4 hover:bg-yellow-600 transition-colors"
+                            >
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <Link
+                            to="/login"
+                            className="block py-2 bg-yellow-500 text-black mt-2 rounded-md font-semibold mx-4 hover:bg-yellow-600 transition-colors"
+                            onClick={() => setIsMenuOpen(false)}
+                        >
+                            Sign In
+                        </Link>
+                    )}
                 </nav>
             )}
         </header>
