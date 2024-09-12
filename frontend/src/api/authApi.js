@@ -11,6 +11,10 @@ export const storeAuthToken = (token) => {
 export const loginUser = async (email, password) => {
   try {
     const response = await axios.post(`${API_BASE_URL}auth/users/login`, {
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
       email,
       password,
     });
@@ -49,6 +53,7 @@ export const registerUser = async ({
       `${API_BASE_URL}auth/users/register`,
       payload,
       {
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -64,6 +69,7 @@ export const registerUser = async ({
 export const getUserProfile = async (token) => {
   try {
     const response = await axios.get(`${API_BASE_URL}users/profile`, {
+      credentials: "include",
       headers: {
         Authorization: `Bearer ${token}`,
       },
